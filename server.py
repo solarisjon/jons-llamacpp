@@ -8,11 +8,14 @@ import platform
 from typing import Optional, List
 
 # Initialize the model from local file
+# For GPU: set n_gpu_layers to number of layers to offload (try -1 for all layers)
+# For CPU only: set n_gpu_layers=0
 llm = Llama(
     model_path="./mistral-7b-instruct-v0.1.Q5_K_S.gguf",
     n_ctx=2048,
     n_threads=4,
-    verbose=False
+    n_gpu_layers=-1,  # -1 = offload all layers to GPU, 0 = CPU only
+    verbose=True  # Enable to see GPU info
 )
 
 app = FastAPI(title="Llama Server", version="1.0.0")
